@@ -12,6 +12,7 @@ def main(scr):
     curses.curs_set(0)  # hiding cursor visibility
     win = curses.newwin(curses.LINES, curses.COLS, 0, 0)  # Init window object
     win.border(0)  # init window border
+    win.keypad(1)
 
     index = 0  # init index, what helps to draw the objects line by line
     key = ""
@@ -22,20 +23,38 @@ def main(scr):
     score = 0           # count the killed bombs
     result = []
     first_turn = False
+    score_output = 0
 
-    '''while key_menu != 49 or key_menu != 50 or key_menu != 51:
+    while True:
         win.clear()
         win.border(0)
-        win.addstr(3, 3, str("For Stage 1, press 1"))
-        win.addstr(4, 3, str("For Stage 2, press 2"))
-        win.addstr(5, 3, str("For Stage 3, press 3"))
+        win.addstr(2, 30, str("Kill the Bombs"), curses.A_BOLD)
+        win.addstr(3, 22, str("All rights reserved by codecool"))
+        win.addstr(5, 3, str("For Stage 1, press 1"))
+        win.addstr(6, 3, str("For Stage 2, press 2"))
+        win.addstr(7, 3, str("For Stage 3, press 3"))
+        win.addstr(8, 3, str("Press ESC to exit"))
+
         key_menu = win.getch()
-        win.refresh()'''
+        if key_menu == 49:
+            score = 0
+            break
+        elif key_menu == 50:
+            score = 11
+            break
+        elif key_menu == 51:
+            score = 21
+            break
+        elif key_menu == 27:
+            key = 27
+            break
+
+        win.refresh()
 
     while key != 27:            # not Esc is pressed
         win.clear()             # clear screen
         win.border(0)           # draw border
-        win.addstr(2, 2, str(score))  # draw score
+        win.addstr(2, 2, str(score_output))  # draw score
 
         if bomb_is_killed or y_coordinate == 0 or y == 23:   # at the begining of the loop, make a random x coordinate
             y_coordinate = 0                # set y coordinate to 0
@@ -50,6 +69,7 @@ def main(scr):
             if (key == 97 and random_object_number == 0) or (key == 98 and random_object_number == 1) or (key == 99 and random_object_number == 2) or (key == 100 and random_object_number == 3) or (key == 101 and random_object_number == 4):
                 bomb_is_killed = True       # previous line : if the pressed key = the object's letter, kill the bomb
                 score += 1       # if the bomb killed, add one to the score
+                score_output += 1
                 win.timeout(500)
                 # win.addstr(5,5,"Bomb is killed")  # test
                 continue
@@ -63,6 +83,7 @@ def main(scr):
             if (key == 54 and random_object_number == 0) or (key == 57 and random_object_number == 1) or (key == 56 and random_object_number == 2) or (key == 51 and random_object_number == 3) or (key == 53 and random_object_number == 4):
                 bomb_is_killed = True   # previous line : if the pressed key = the result of the exercise, kill the bomb
                 score += 1       # if the bomb killed, add one to the score
+                score_output += 1
                 win.timeout(500)
                 result = []
                 continue
@@ -74,6 +95,7 @@ def main(scr):
                 result = []
                 first_turn = True
             for index, value in enumerate(objects3.level3[random_object_number]):
+                list2 = str(value)
                 win.addstr(index+1+y_coordinate, x_coordinate, list2)
             win.addstr(10, 10, str(result))
             if (len(result) == 3 and ((result[0] == 97 and result[1] == 98 and result[2] == 99 and random_object_number == 0) \
@@ -84,6 +106,7 @@ def main(scr):
                 bomb_is_killed = True       # previous line : if the pressed key = the object's letter, kill the bomb
                 win.addstr(5, 5, "Bomb is killed")
                 score += 1       # if the bomb killed, add one to the score
+                score_output += 1
                 win.timeout(500)
                 result = []  # this line makes the list empty again
                 continue
