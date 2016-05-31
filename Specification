@@ -1,0 +1,30 @@
+Specification about the game that we have now:
+
+In the game, bomb form element falling down with task inside. If you press the right button, the bomb is killed, and you get one score point.
+
+We have 3 stages
+- Stage one: score 1-10. You have to press one one letter to kill the bomb
+- Stage two: score 11-20. You have to solve a math exercise to kill he bomb
+- Stage three: score 21-30. You have to write the right string to kill the bomb
+
+The tasks arrives from a list, which contains 5 element\Stage.
+
+Now you can't die in the game, if the bomb is not killed.
+
+In the end of the game, if you reached the 30 scores, you can start a new game or press ESC to exit.
+*******************************************************************
+
+We would like to improve the following:
+
+- We would like to make a menu for the game, which contains a button to choose from the stages
+
+- We would like to make a high score effect. If you finished the game or died, you can write your score and name to a txt file
+
+- If the bomb falls down without being killed, you lost the game
+
+- Format the background - we would like to have coloured background ( White )
+
+- When the bomb killed, a fancy bomb effect will happen with sound ( we would choose some symbols, with a little bomb detonating noise  )
+
+- We would like to more randomize the game than now ( we would like to use not just the elements from the lists now). In the first stage we would like to use all the letters, in the second we would like 2 random number between 0-9 with a random operand, and finally in the third stage we would like to have 3 random characters( numbers and letters) inside the bomb
+
