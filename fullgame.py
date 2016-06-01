@@ -13,10 +13,9 @@ def main(scr):
     win.border(0)  # init window border
     win.keypad(1)
     curses.start_color()
-    curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)
-    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLUE)
+    curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)  # responsible to the colouring of the harts
+    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLUE)  # responsible to the colouring of the skulls
 
-    # win.bkgd(curses.init_pair(1))
     win.refresh()
 
     index = 0  # init index, what helps to draw the objects line by line
@@ -61,11 +60,12 @@ def main(scr):
                 win.border(0)           # draw border
                 win.addstr(1, 2, str("Your score:"))
                 win.addstr(2, 2, str(score_output))  # draw score
-                win.addstr(3, 2, " ❤ " * life, curses.color_pair(1))
+                win.addstr(3, 2, " ❤ " * life, curses.color_pair(1))  # show your number of lifes
 
                 if bomb_is_killed or y_coordinate == 0 or y == 23:  # begining of the loop, make a random x coordinate
                     if bomb_is_killed:
                         win.addstr(5, 2, " ☠ ", curses.color_pair(1))     # Write a skull if bomb killed
+                        curses.beep()
                         win.timeout(3000)
                         win.refresh()
                     y_coordinate = 0                # set y coordinate to 0
@@ -95,7 +95,6 @@ def main(scr):
                         score += 1       # if the bomb killed, add one to the score
                         score_output += 1
                         win.timeout(250)
-                        result = []
                         continue
 
                 elif score >= 21 and score <= 30:
@@ -106,8 +105,6 @@ def main(scr):
                     for index, value in enumerate(objects3.level3[random_object_number]):
                         list2 = str(value)
                         win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))
-                    # if " " in result:
-                        # result.replace(" ", "")
                     if (len(result) == 3 and ((result[0] == 97 and result[1] == 98 and result[2] == 99 and random_object_number == 0) \
                     or (result[0] == 100 and result[1] == 101 and result[2] == 102 and random_object_number == 1) \
                     or (result[0] == 103 and result[1] == 104 and result[2] == 105 and random_object_number == 2) \
@@ -139,17 +136,17 @@ def main(scr):
                 y_coordinate = y_coordinate + 1                # responsible for the y movement
                 y = index + 1 + y_coordinate                    # helps to draw the bomb objects line by line
 
-                if y == 23:
+                if y == 23:                 # if the bomb is in the bottom, minus 1 life
                     life = life - 1
 
-                if life == 0:
+                if life == 0:           # if you are out of lifes
                     win.clear()
                     win.addstr(12, 25, "You lose! Press x to back to the menu!")
                     win.refresh()
-                    while key != 120:
+                    while key != 120:       # waiting for an X to go back to the menu
                         key = win.getch()
                     else:
-                        break
+                        break               # if we got it, break from this loop
 
                 win.refresh()
                 win.timeout(250)        # wait 0,1 sec
