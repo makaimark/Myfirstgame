@@ -22,6 +22,7 @@ def main(scr):
     index = 0  # init index, what helps to draw the objects line by line
     key = ""
     y_coordinate = 0
+    x_coordinate = 0
     y = 0
     bomb_is_killed = False  # If the bomb killed, change to True
     score = 0           # count the killed bombs
@@ -62,40 +63,40 @@ def main(scr):
             win.addstr(2, 2, str(score_output))  # draw score
             win.addstr(3, 2, " ❤ " * life, curses.color_pair(1))
 
-            if bomb_is_killed or y_coordinate == 0 or y == 23:   # at the begining of the loop, make a random x coordinate
+            if bomb_is_killed or y_coordinate == 0 or y == 23:  # begining of the loop, make a random x coordinate
+                if bomb_is_killed:
+                    win.addstr(5, 2, " ☠ ", curses.color_pair(1))     # Write a skull if bomb killed
+                    win.timeout(3000)
+                    win.refresh()
                 y_coordinate = 0                # set y coordinate to 0
                 x_coordinate = random.randint(10, 75)  # random x coordinate
                 random_object_number = random.randint(0, 4)  # help to choose a level1 object
                 result = []  # this makes the result list empty again
+                bomb_is_killed = False
 
             if score >= 0 and score <= 10:  # level 1, between score 0-10
-                for index, value in enumerate(objects.level1[random_object_number]):  # responsible for the bomb object drawing
+                for index, value in enumerate(objects.level1[random_object_number]):  # responsible for the bomb drawing
                     list2 = str(value)
                     win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))  # draw the bomb objects
                 if (key == 97 and random_object_number == 0) or (key == 98 and random_object_number == 1) or (key == 99 and random_object_number == 2) or (key == 100 and random_object_number == 3) or (key == 101 and random_object_number == 4):
-                    bomb_is_killed = True       # previous line : if the pressed key = the object's letter, kill the bomb
-                    # win.addstr(10, 10, " ☠ ")
-                    win.refresh()
-                    win.timeout(1000)
+                    bomb_is_killed = True      # previous line : if the pressed key = the object's letter, kill the bomb
                     score += 1       # if the bomb killed, add one to the score
                     score_output += 1
+                    win.timeout(250)
+                    win.clear()
                     continue
-                else:
-                    bomb_is_killed = False  # if the pressed key not the needed, nothing happen
 
             elif score >= 11 and score <= 20:
                 for index, value in enumerate(objects2.level2[random_object_number]):
                     list2 = str(value)
                     win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))
                 if (key == 54 and random_object_number == 0) or (key == 57 and random_object_number == 1) or (key == 56 and random_object_number == 2) or (key == 51 and random_object_number == 3) or (key == 53 and random_object_number == 4):
-                    bomb_is_killed = True   # previous line : if the pressed key = the result of the exercise, kill the bomb
+                    bomb_is_killed = True   # previous: if the pressed key = the result of the exercise, kill the bomb
                     score += 1       # if the bomb killed, add one to the score
                     score_output += 1
                     win.timeout(250)
                     result = []
                     continue
-                else:
-                    bomb_is_killed = False  # if the pressed key not the needed, nothing happen
 
             elif score >= 21 and score <= 30:
                 if first_turn is False:
@@ -110,17 +111,15 @@ def main(scr):
                 or (result[0] == 103 and result[1] == 104 and result[2] == 105 and random_object_number == 2) \
                 or (result[0] == 120 and result[1] == 121 and result[2] == 122 and random_object_number == 3) \
                 or (result[0] == 104 and result[1] == 117 and result[2] == 104 and random_object_number == 4))):
-                    bomb_is_killed = True       # previous line : if the pressed key = the object's letter, kill the bomb
-                    win.addstr(5, 5, "Bomb is killed")
+                    bomb_is_killed = True       # previous: if the pressed key = the object's letter, kill the bomb
                     score += 1       # if the bomb killed, add one to the score
                     score_output += 1
                     win.timeout(250)
                     result = []  # this line makes the list empty again
                     continue
                 else:
-                    bomb_is_killed = False  # if the pressed key not the needed, nothing happen
                     if key != -1 and key != 32:  # we need this line, because -1-s appear in every loop
-                        if len(result) >= 3:  # if the list contains 3 or more element what is not we need, make the list empty again
+                        if len(result) >= 3:  # if the list contains 3 or more element what is not we need, empty again
                             result = []
                         result.append(key)  # append the inputed letters to the list
 
