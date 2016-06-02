@@ -80,11 +80,11 @@ def main(scr):
                     bomb_is_killed = False
 
                 if score >= 0 and score <= 10:  # level 1, between score 0-10
-                    for index, value in enumerate(objects.level1[random_object_number]):  # responsible for the bomb drawing
+                    for index, value in enumerate(objects.level1[random_object_number]):  # responsible for the drawing
                         list2 = str(value)
-                        win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))  # draw the bomb objects
+                        win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))  # draw the bomb
                     if (key == 97 and random_object_number == 0) or (key == 98 and random_object_number == 1) or (key == 99 and random_object_number == 2) or (key == 100 and random_object_number == 3) or (key == 101 and random_object_number == 4):
-                        bomb_is_killed = True      # previous line : if the pressed key = the object's letter, kill the bomb
+                        bomb_is_killed = True      # previous line : if the pressed key = the object's letter, kill bomb
                         score += 1       # if the bomb killed, add one to the score
                         score_output += 1
                         win.timeout(250)
@@ -96,7 +96,7 @@ def main(scr):
                         list2 = str(value)
                         win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))
                     if (key == 54 and random_object_number == 0) or (key == 57 and random_object_number == 1) or (key == 56 and random_object_number == 2) or (key == 51 and random_object_number == 3) or (key == 53 and random_object_number == 4):
-                        bomb_is_killed = True   # previous: if the pressed key = the result of the exercise, kill the bomb
+                        bomb_is_killed = True   # previous: if the pressed key = the result of the exercise, kill bomb
                         score += 1       # if the bomb killed, add one to the score
                         score_output += 1
                         win.timeout(250)
@@ -140,7 +140,6 @@ def main(scr):
                         score = 0
                         score_output = 0
                         continue
-
 
                 y_coordinate = y_coordinate + 1                # responsible for the y movement
                 y = index + 1 + y_coordinate                    # helps to draw the bomb objects line by line
