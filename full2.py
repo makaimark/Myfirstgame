@@ -84,7 +84,6 @@ def main(scr):
                         curses.beep()
                         win.timeout(3000)
                         win.refresh()
-                    ascii_result = []
                     y_coordinate = 0                # set y coordinate to 0
                     x_coordinate = random.randint(12, 75)  # random x coordinate
                     random_object_number = random.randint(0, 4)  # help to choose a level1 object
@@ -106,60 +105,43 @@ def main(scr):
                         win.clear()
                         continue
 
-                '''elif score >= 11 and score <= 20:
+                elif score >= 11 and score <= 20:
                     if y_coordinate == 0:
-                        rand_num1 = random.choice(list(string.digits))
-                        rand_operand = random.choice(operands)
-                        rand_num2 = random.choice(list(string.digits))
-                        bomb[1] = '|'+rand_num1+rand_operand+rand_num2+'|'
+                        result_operand = -1
+                        while result_operand > 9 or result_operand < 0 or result_operand % 1:
+                            rand_num1 = random.choice(list(string.digits))
+                            rand_operand = random.choice(operands)
+                            rand_num2 = random.choice(list(string.digits))
+                            bomb[1] = '|'+rand_num1+rand_operand+rand_num2+'|'
+                            ascii_result = []
 
-                        if rand_operand == '+':
-                            result_operand = int(rand_num1) + int(rand_num2)
-                        elif rand_operand == '-':
-                            result_operand = int(rand_num1) - int(rand_num2)
-                        elif rand_operand == '/':
-                            if int(rand_num2) == 0:
-                                rand_num2 = 1
-                            else:
-                                result_operand = int(rand_num1) // int(rand_num2)
-                        elif rand_operand == '*':
-                            result_operand = int(rand_num1) * int(rand_num2)
+                            if rand_operand == '+':
+                                result_operand = int(rand_num1) + int(rand_num2)
+                            elif rand_operand == '-':
+                                result_operand = int(rand_num1) - int(rand_num2)
+                            elif rand_operand == '/':
+                                if int(rand_num2) == 0:
+                                    rand_num2 = 1
+                                    result_operand = int(rand_num1) / int(rand_num2)
+                                else:
+                                    result_operand = int(rand_num1) / int(rand_num2)
+                            elif rand_operand == '*':
+                                result_operand = int(rand_num1) * int(rand_num2)
+
+                    result_operand = int(result_operand)
 
                     for index, value in enumerate(bomb):
                         list2 = str(value)
                         win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))
 
-                    # convert the result into ascii
-                    if len(str(result_operand)) == 2:
-                        result_1 = result_operand // 10
-                        result_2 = result_operand % 10
-                        ascii_result.append(ord(chr(result_1)))
-                        ascii_result.append(ord(str(result_2)))
-                    elif len(str(result_operand)) == 1:
-                        ascii_result.append(ord(str(result_operand)))
+                    if key == ord(str(result_operand)):
+                        bomb_is_killed = True
+                        score += 1       # if the bomb killed, add one to the score
+                        score_output += 1
+                        win.timeout(250)
+                        continue
 
-                    if len(ascii_result) == 1:
-                        if key == ascii_result:
-                            bomb_is_killed = True
-                            score += 1       # if the bomb killed, add one to the score
-                            score_output += 1
-                            win.timeout(250)
-                            continue
-                    elif len(ascii_result) == 2 and len(level2_result) == 2 and (level2_result[0] == ascii_result[0]) and (level2_result[1] == ascii_result[1]):
-                            bomb_is_killed = True   # previous: if the pressed key = the result of the exercise, kill the bomb
-                            score += 1       # if the bomb killed, add one to the score
-                            score_output += 1
-                            win.timeout(250)
-                            level2_result = []
-                            continue
-
-                    if key != -1:  # we need this line, because -1-s appear in every loop
-                        if len(level2_result) >= 2:  # if the list contains 3 or more element what is not we need, empty again
-                            level2_result = []
-                        level2_result.append(key)  # append the inputed letters to the list
-                        win.addstr(10, 15, str(level2_result))
-
-                elif score >= 21 and score <= 30:
+                '''elif score >= 21 and score <= 30:
                     if first_turn is False:
                         result.append("")       # cheat line^^ :D it is a must, sorry
                         result.append("")       # cheat line 2 ^^ :D
