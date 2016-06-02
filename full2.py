@@ -45,6 +45,7 @@ def main(scr):
     ascii_result = []
     result_1 = 0
     result_2 = 0
+    random_character_level3 = []
 
     while True:
         win.clear()
@@ -89,6 +90,7 @@ def main(scr):
                     random_object_number = random.randint(0, 4)  # help to choose a level1 object
                     result = []  # this makes the result list empty again
                     bomb_is_killed = False
+                    random_character_level3 = []
 
                 if score >= 0 and score <= 10:  # level 1, between score 0-10
                     if y_coordinate == 0:
@@ -141,19 +143,20 @@ def main(scr):
                         win.timeout(250)
                         continue
 
-                '''elif score >= 21 and score <= 30:
+                elif score >= 21 and score <= 30:
+                    random_character_level3.append(random.choice(list(string.ascii_lowercase)))
+                    random_character_level3.append(random.choice(list(string.ascii_lowercase)))
+                    random_character_level3.append(random.choice(list(string.ascii_lowercase)))
+                    bomb[1] = '|'+random_character_level3[0]+random_character_level3[1]+random_character_level3[2]+'|'
                     if first_turn is False:
                         result.append("")       # cheat line^^ :D it is a must, sorry
                         result.append("")       # cheat line 2 ^^ :D
                         first_turn = True
-                    for index, value in enumerate(objects3.level3[random_object_number]):
+                    for index, value in enumerate(bomb):
                         list2 = str(value)
                         win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))
-                    if (len(result) == 3 and ((result[0] == 97 and result[1] == 98 and result[2] == 99 and random_object_number == 0) \
-                    or (result[0] == 100 and result[1] == 101 and result[2] == 102 and random_object_number == 1) \
-                    or (result[0] == 103 and result[1] == 104 and result[2] == 105 and random_object_number == 2) \
-                    or (result[0] == 120 and result[1] == 121 and result[2] == 122 and random_object_number == 3) \
-                    or (result[0] == 104 and result[1] == 117 and result[2] == 104 and random_object_number == 4))):
+                        win.addstr(10, 15, str(result))
+                    if (len(result) == 3 and result[0] == ord(random_character_level3[0]) and result[1] == ord(random_character_level3[1]) and result[2] == ord(random_character_level3[2])):
                         bomb_is_killed = True       # previous: if the pressed key = the object's letter, kill the bomb
                         score += 1       # if the bomb killed, add one to the score
                         score_output += 1
@@ -165,7 +168,7 @@ def main(scr):
                             if len(result) >= 3:  # if the list contains 3 or more element what is not we need, empty again
                                 result = []
                             result.append(key)  # append the inputed letters to the list
-'''
+
                 if score >= 31:
                     f = open("highscore.txt", "a")
                     f.write(name + " " + str(score_output))
