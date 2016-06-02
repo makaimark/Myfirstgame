@@ -5,6 +5,11 @@ import sys
 import curses
 import random
 
+def name_input():
+    name1 = input("Write here your name: ")
+    return name1
+
+name = name_input()
 
 def main(scr):
     curses.noecho()  # Disable default printing of inputs
@@ -123,6 +128,10 @@ def main(scr):
                             result.append(key)  # append the inputed letters to the list
 
                 elif score >= 31:
+                    f = open("highscore.txt", "a")
+                    f.write(name + " " + str(score_output))
+                    f.write('\n')
+                    f.close()
                     win.clear()
                     win.addstr(12, 40, "Victory!!! Press p to play a new game")  # press p to play a new game
                     win.refresh()
@@ -140,6 +149,10 @@ def main(scr):
                     life = life - 1
 
                 if life == 0:           # if you are out of lifes
+                    f = open("highscore.txt", "a")
+                    f.write(name + " " + str(score_output))
+                    f.write('\n')
+                    f.close()
                     win.clear()
                     win.addstr(12, 25, "You lose! Press x to back to the menu!")
                     win.refresh()
