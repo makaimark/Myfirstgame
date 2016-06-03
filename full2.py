@@ -51,7 +51,8 @@ def main(scr):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)  # responsible to the colouring of the harts
     curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLUE)  # responsible to the colouring of the skulls
-
+    curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)
+    win.bkgd(' ', curses.color_pair(3))
     win.refresh()
 
     index = 0  # init index, what helps to draw the objects line by line
