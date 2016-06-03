@@ -238,5 +238,6 @@ def main(scr):
 
                 key = win.getch()       # we are waiting for inputs, and put it to the key
 
-
+                if key == 27:
+                    win.clear()
 curses.wrapper(main)
