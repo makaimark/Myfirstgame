@@ -10,19 +10,6 @@ bomb = ['_____',
         '..V..']
 
 
-def function_to_writefile(filename):
-    with open(filename, mode='a') as f:
-        f.write(name + " " + str(score_output))
-        f.write('\n')
-        f.close()
-
-
-def function_to_readfile(filename):
-    with open('highscore.txt', mode='r') as f:  # write the name and the result to the txt
-        for line in f:
-            highscore.append(line)
-
-
 def name_input():
     name1 = input("Write here your name: ")
     return name1
@@ -52,7 +39,7 @@ def main(scr):
     curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)  # responsible to the colouring of the harts
     curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLUE)  # responsible to the colouring of the skulls
     curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)
-    win.bkgd(' ', curses.color_pair(3))
+    win.bkgd(' ', curses.color_pair(3))         # color the background
     win.refresh()
 
     index = 0  # init index, what helps to draw the objects line by line
@@ -69,13 +56,14 @@ def main(scr):
     key_menu = ""
     operands = ['+', '-', '*', '/']
     level2_result = []
-    random_character_level3 = []
+    rand_char_level3 = []
     rand_char_level1 = ""
     highscore = []
 
     while True:
         draw_menu(win)
         key_menu = win.getch()
+        win.clear()
 
         if key_menu == 49:      # press 1 to stage one
             score = 0
@@ -110,16 +98,17 @@ def main(scr):
                     random_object_number = random.randint(0, 4)  # help to choose a level1 object
                     result = []  # this makes the result list empty again
                     bomb_is_killed = False
-                    random_character_level3 = []
+                    rand_char_level3 = []
 
                 if score >= 0 and score <= 10:  # level 1, between score 0-10
                     if y_coordinate == 0:
                         rand_char_level1 = random.choice(string.ascii_lowercase)
-                        bomb[1] = '|.'+rand_char_level1+'.|'
+                        bomb[1] = '|.'+rand_char_level1+'.|'        # put the char to the bomb
 
                     for index, value in enumerate(bomb):  # responsible for the bomb drawing
                         list2 = str(value)
                         win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))  # draw the bomb
+
                     if key == ord(rand_char_level1):
                         bomb_is_killed = True      # if the pressed key = the object's letter, kill the bomb
                         score += 1       # if the bomb killed, add one to the score
@@ -132,14 +121,14 @@ def main(scr):
                     if y_coordinate == 0:
                         result_operand = -1
                         while result_operand > 9 or result_operand < 0 or result_operand % 1:
-                            rand_num1 = random.choice(list(string.digits))
-                            rand_operand = random.choice(operands)
-                            rand_num2 = random.choice(list(string.digits))
-                            if int(rand_num2) == 0:
+                            rand_num1 = random.choice(list(string.digits))      # random number 1
+                            rand_operand = random.choice(operands)      # choice from the operands
+                            rand_num2 = random.choice(list(string.digits))      # random number 2
+                            if int(rand_num2) == 0:         # the second number can't be 0
                                 rand_num2 = random.choice(list(string.digits))
-                            bomb[1] = '|'+rand_num1+rand_operand+rand_num2+'|'
+                            bomb[1] = '|'+rand_num1+rand_operand+rand_num2+'|'      # but the operand to the bomb
 
-                            if rand_operand == '+':
+                            if rand_operand == '+':         # Here we count the result of the operand
                                 result_operand = int(rand_num1) + int(rand_num2)
                             elif rand_operand == '-':
                                 result_operand = int(rand_num1) - int(rand_num2)
@@ -150,7 +139,7 @@ def main(scr):
 
                     result_operand = int(result_operand)
 
-                    for index, value in enumerate(bomb):            # drowing the omb object
+                    for index, value in enumerate(bomb):            # drawing the bomb object
                         list2 = str(value)
                         win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))
 
@@ -163,9 +152,9 @@ def main(scr):
 
                 elif score >= 21 and score <= 30:
                     for i in range(0, 3):
-                        random_character_level3.append(random.choice(list(string.ascii_lowercase)))     # random char1
+                        rand_char_level3.append(random.choice(list(string.ascii_lowercase)))     # random chars
 
-                    bomb[1] = '|'+random_character_level3[0]+random_character_level3[1]+random_character_level3[2]+'|'
+                    bomb[1] = '|'+rand_char_level3[0]+rand_char_level3[1]+rand_char_level3[2]+'|'
                     # change the text_box part of the bomb object
 
                     if first_turn is False:
@@ -177,7 +166,7 @@ def main(scr):
                         list2 = str(value)
                         win.addstr(index+1+y_coordinate, x_coordinate, list2, curses.color_pair(2))
 
-                    if (len(result) == 3 and result[0] == ord(random_character_level3[0]) and result[1] == ord(random_character_level3[1]) and result[2] == ord(random_character_level3[2])):
+                    if (len(result) == 3 and result[0] == ord(rand_char_level3[0]) and result[1] == ord(rand_char_level3[1]) and result[2] == ord(rand_char_level3[2])):
                         bomb_is_killed = True       # previous: if the pressed buttons are OK, kill the bomb
                         score += 1       # if the bomb killed, add one to the score
                         score_output += 1
@@ -194,11 +183,17 @@ def main(scr):
                     win.clear()
                     win.addstr(12, 40, "Victory!!! Press p to play a new game")  # press p to play a new game
                     win.addstr(13, 40, "Press m to reach the menu")
-                    function_to_readfile("highscore.txt")
+
+                    with open('highscore.txt', mode='r') as f:  # write the name and the result to the txt
+                        for line in f:
+                            highscore.append(line)
 
                     highscore.append(name + str(score))     # append the new highscore element
 
-                    function_to_writefile("highscore.txt")
+                    with open("highscore.txt", mode='a') as f:
+                        f.write(name + " " + str(score_output))
+                        f.write('\n')
+                        f.close()
 
                     win.refresh()
                     key = win.getch()
@@ -219,11 +214,16 @@ def main(scr):
                     life = life - 1
 
                 if life == 0:           # if you are out of lifes
-                    function_to_readfile("highscore.txt")
+                    with open('highscore.txt', mode='r') as f:  # write the name and the result to the txt
+                        for line in f:
+                            highscore.append(line)
 
                     highscore.append(name + str(score))
 
-                    function_to_writefile("highscore.txt")
+                    with open("highscore.txt", mode='a') as f:
+                        f.write(name + " " + str(score_output))
+                        f.write('\n')
+                        f.close()
 
                     win.clear()
                     win.addstr(12, 25, "You lose! Press x to back to the menu!")
@@ -238,6 +238,6 @@ def main(scr):
 
                 key = win.getch()       # we are waiting for inputs, and put it to the key
 
-                if key == 27:
+                if key == 27:       # if we got ESC, break
                     win.clear()
 curses.wrapper(main)
